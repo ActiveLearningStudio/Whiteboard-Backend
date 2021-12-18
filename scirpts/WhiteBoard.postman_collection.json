@@ -1,0 +1,345 @@
+{
+	"info": {
+		"_postman_id": "29baec9d-2d62-4e04-910d-c57e4390e2e3",
+		"name": "WhiteBoard",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "BoardContent",
+			"item": [
+				{
+					"name": "add content",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardId\": \"60eed6b8409e8e2d28a12249\",\r\n    \"action\": \"add\",\r\n    \"newContent\": {\r\n        \"x1\" : 256,\r\n\t\t\"y1\" : 200,\r\n\t\t\"x2\" : 269,\r\n\t\t\"y2\": 369,\r\n\t\t\"type\" : \"line\",\r\n\t\t\"id\": 1545429,\r\n\t\t\"username\" : \"krishna\",\r\n\t\t\"visiblity\": true\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base-url}}/v1/boardContent/add"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "History content",
+			"item": [
+				{
+					"name": "get user content",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardId\": \"60eed6b8409e8e2d28a12249\",\r\n    \"userName\": \"krishna\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base-url}}/v1/historyContent/userContent"
+					},
+					"response": []
+				},
+				{
+					"name": "undo content",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardId\": \"60eed6b8409e8e2d28a12249\",\r\n    \"userName\": \"krishna\",\r\n    \"undoIndex\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base-url}}/v1/historyContent/undo"
+					},
+					"response": []
+				},
+				{
+					"name": "redo content",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardId\": \"60eed6b8409e8e2d28a12249\",\r\n    \"userName\": \"krishna\",\r\n    \"redoIndex\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base-url}}/v1/historyContent/redo"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "whiteBoard crud",
+			"item": [
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base-url}}/v1/whiteboard/all"
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/v1/whiteboard/:id",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"v1",
+								"whiteboard",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "60eed6b8409e8e2d28a12249"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"boardName\":\"whiteboard19\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base-url}}/v1/whiteboard/add"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\":\"updated name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/v1/whiteboard/update/:id",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"v1",
+								"whiteboard",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "60eed6b8409e8e2d28a12249"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/v1/whiteboard/remove/:id",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"v1",
+								"whiteboard",
+								"remove",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "60eed6b8409e8e2d28a12249"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update board image",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Basavaraja/Downloads/file_example_JPG_100kB.jpg"
+								}
+							]
+						},
+						"url": "{{base-url}}/v1/whiteboard/updateImage/60eed6b8409e8e2d28a12249"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "InvitLink",
+			"item": [
+				{
+					"name": "checkInviteLink",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/v1/checkInviteLink/checkUrl?id=612112e0e1e50323406df779&token=tvjtPK24pVB7xXx",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"v1",
+								"checkInviteLink",
+								"checkUrl"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "612112e0e1e50323406df779"
+								},
+								{
+									"key": "token",
+									"value": "tvjtPK24pVB7xXx"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "WhiteBoardUrl",
+			"item": [
+				{
+					"name": "whiteBoard Url",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"org_id\": \"35006\",\r\n  \"obj_id\": \"31538\",\r\n  \"obj_type\":\"admin\"\r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base-url}}/v1/whiteboardUrl/getWhiteboardUrl"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Share Information",
+			"item": [
+				{
+					"name": "add share Information",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"test@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base-url}}/v1/shareInformation/addShareInfo"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base-url}}/test"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base-url",
+			"value": "http://localhost:8000"
+		}
+	]
+}

@@ -1,0 +1,977 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Curriki Whiteboard Project",
+    "description": "API for whiteboard"
+  },
+  "host": "50.116.28.176:8000",
+  "basePath": "/v1",
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/whiteBoard/add": {
+      "post": {
+        "tags": ["whiteboard"],
+        "description": "create a new white board",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "create a new white board",
+            "schema": {
+              "$ref": "#/definitions/WhiteBoardSchema"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "whiteboard is created",
+            "schema": {
+              "$ref": "#/definitions/WhiteBoardSchema"
+            }
+          }
+        }
+      }
+    },
+    "/whiteboard/update/{whiteboardId}": {
+      "put": {
+        "tags": ["whiteboard"],
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "whiteboardId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "Update the whiteboard details by id",
+            "schema": {
+              "$ref": "#/definitions/WhiteBoardSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/WhiteBoardSchema"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Whiteboard not found"
+          }
+        }
+      }
+    },
+    "/whiteBoard/{whiteboardId}": {
+      "get": {
+        "tags": ["whiteboard"],
+        "description": "Get the whiteboard by id(mongo id)",
+        "operationId": "getWhiteBoarById",
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "name": "whiteboardId",
+            "type": "string",
+            "in": "path",
+            "description": "Mongodb ID of the whiteboard to get",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/WhiteBoardSchema"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Whiteboard not found"
+          }
+        }
+      }
+    },
+    "/whiteBoard/remove/{whiteboardId}": {
+      "delete": {
+        "tags": ["whiteboard"],
+        "description": "Delete whiteboard by id",
+        "operationId": "deleteWhiteBoard",
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "name": "whiteboardId",
+            "in": "path",
+            "description": "whiteboard id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "whiteboard not found"
+          }
+        }
+      }
+    },
+    "/whiteBoard/all": {
+      "get": {
+        "tags": ["whiteboard"],
+        "description": "Get all wthiteboards",
+        "operationId": "getWhiteboard",
+        "produces": ["application/json", "application/xml"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/WhiteBoardSchema"
+            }
+          }
+        }
+      }
+    },
+    "/whiteboard/updateImage/{whiteboardId}": {
+      "put": {
+        "tags": ["whiteboard"],
+        "description": "Update historical snapshot of whiteboard",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "whiteboardId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "file to upload",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully updated ",
+            "schema": {
+              "$ref": "#/definitions/WhiteBoardSchema"
+            }
+          }
+        }
+      }
+    },
+    "/boardContent/add": {
+      "post": {
+        "tags": ["Board content"],
+        "description": "Adding content to the board",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Adding content to the board",
+            "schema": {
+              "$ref": "#/definitions/BoardContentSchema"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Successfully added",
+            "schema": {
+              "$ref": "#/definitions/BoardContentSchema"
+            }
+          }
+        }
+      }
+    },
+    "/boardContent/clearContent": {
+      "post": {
+        "tags": ["Board content"],
+        "description": "Clear content of the board",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Adding content to the board",
+            "schema": {
+              "$ref": "#/definitions/ClearContentSchema"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Successfully added",
+            "schema": {
+              "$ref": "#/definitions/ClearContentSchema"
+            }
+          }
+        }
+      }
+    },
+    "/boardContent/{boardId}": {
+      "get": {
+        "tags": ["Board content"],
+        "description": "Get the boardContent by id(mongo id)",
+        "operationId": "getBoardContentById",
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "name": "boardId",
+            "type": "string",
+            "in": "path",
+            "description": "Mongodb ID of the boardContent to get",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/BoardContentSchema"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "boardContent not found"
+          }
+        }
+      }
+    },
+    "/Team/all": {
+      "get": {
+        "tags": ["Team"],
+        "operationId": "all",
+        "produces": ["application/json", "application/xml"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/teamSchema"
+            }
+          }
+        }
+      }
+    },
+    "/Team/{teamId}": {
+      "get": {
+        "tags": ["Team"],
+        "description": "get team by id",
+        "operationId": "getTeam",
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "name": "teamId",
+            "type": "string",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/teamSchema"
+            }
+          },
+          "400": {
+            "description": "TeamId not Found"
+          }
+        }
+      }
+    },
+    "/Team/update/{teamId}": {
+      "put": {
+        "tags": ["Team"],
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "teamId",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "Update the team details by id",
+            "schema": {
+              "$ref": "#/definitions/teamSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/teamSchema"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Team not found"
+          }
+        }
+      }
+    },
+    "/Team/add": {
+      "post": {
+        "tags": ["Team"],
+        "description": "create a new Team",
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "create a new Team",
+            "schema": {
+              "$ref": "#/definitions/teamSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "TeamId noy Found"
+          }
+        }
+      }
+    },
+    "/checkInviteLink/link": {
+      "post": {
+        "tags": ["InviteLinks"],
+        "operationId": "link",
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "id",
+            "description": "Send Invite Link",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/getWhiteBoardSchema"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid tag value"
+          }
+        }
+      }
+    },
+    "/checkInviteLink/checkUrl": {
+      "get": {
+        "tags": ["InviteLinks"],
+        "operationId": "checkUrl",
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Check Invite Link",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "token",
+            "description": "Check Invite Link",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid tag value"
+          }
+        }
+      }
+    },
+    "/whiteboardUrl/getWhiteboardUrl": {
+      "post": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "tags": ["get whiteboard url"],
+        "description": "get white board url",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "get  whiteboard url",
+            "schema": {
+              "$ref": "#/definitions/getWhiteBoardSchema"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "get whiteboard url generated",
+            "schema": {
+              "$ref": "#/definitions/getWhiteBoardSchema"
+            }
+          }
+        }
+      }
+    },
+    "/chatHistory/{boardId}": {
+      "get": {
+        "tags": ["chat History"],
+        "description": "Get the boardContent by id(mongo id)",
+        "operationId": "getchatHistory",
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "name": "boardId",
+            "type": "string",
+            "in": "path",
+            "description": "Mongodb ID of the chatHistory to get",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/chatHistorySchema"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "boardContent not found"
+          }
+        }
+      }
+    },
+    "/chatHistory/{boardId}/{searchTerm}": {
+      "get": {
+        "description": " serchTerm in chatHistory",
+        "tags": ["chat History"],
+        "operationId": "",
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "name": "boardId",
+            "type": "string",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "searchTerm",
+            "type": "string",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "get data successful",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/user/add-user": {
+      "post": {
+        "tags": ["groupData"],
+        "description": "add user",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "add user",
+            "schema": {
+              "$ref": "#/definitions/groupUser"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successfully Created ",
+            "schema": {
+              "$ref": "#/definitions/groupUser"
+            }
+          }
+        }
+      }
+    },
+    "/user/edit-user/{userId}": {
+      "put": {
+        "tags": ["groupData"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "type": "string",
+            "description": "UserId : 615e98f000d121349ba07cb0",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "Update the whiteboard details by id",
+            "schema": {
+              "$ref": "#/definitions/editUserGroup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/group/create-group": {
+      "post": {
+        "tags": ["groupData"],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "UserId : 615e98f000d121349ba07cb0"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "group name like example : Group3",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": " example:Dummy description",
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "description": "file to upload",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successfully Created ",
+            "schema": {
+              "$ref": "#/definitions/groupCreate"
+            }
+          }
+        }
+      }
+    },
+    "/group/add-user-to-group/{groupId}": {
+      "put": {
+        "tags": ["groupData"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "groupId",
+            "type": "string",
+            "description": "groupId like 615e98f000d121349ba07cb0 ",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "insert user to group by username",
+            "schema": {
+              "$ref": "#/definitions/editUserGroup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/group/remove-user-from-group/{groupId}": {
+      "put": {
+        "tags": ["groupData"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "groupId",
+            "type": "string",
+            "description": "example like 616007a8b5b0ce48f3bce886 ",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "remove user by id",
+            "schema": {
+              "$ref": "#/definitions/editUserGroup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/group/change-role/{groupId}": {
+      "put": {
+        "tags": ["groupData"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "groupId",
+            "type": "string",
+            "description": "example like 616007a8b5b0ce48f3bce886 ",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "change role of participants",
+            "schema": {
+              "$ref": "#/definitions/editUserGroup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "WhiteBoardSchema": {
+      "required": ["boardName"],
+      "type": "object",
+      "properties": {
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "inviteLinks": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "activeUsers": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "boardName": {
+          "type": "string"
+        }
+      }
+    },
+    "teamSchema": {
+      "required": ["teamName"],
+      "type": "object",
+      "properties": {
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "teamName": {
+          "type": "string"
+        }
+      }
+    },
+    "BoardContentSchema": {
+      "required": ["boardId", "content"],
+      "type": "object",
+      "properties": {
+        "boardId": {
+          "type": "string"
+        },
+        "content": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "example": {
+        "boardId": "60eed6b8409e8e2d28a12249",
+        "action": "add",
+        "newContent": [
+          {
+            "x1": 256,
+            "y1": 200,
+            "x2": 269,
+            "y2": 369,
+            "type": "line",
+            "id": 1545429,
+            "username": "krishna",
+            "visiblity": true
+          }
+        ]
+      }
+    },
+    "chatHistorySchema": {
+      "required": ["boardId"],
+      "type": "object",
+      "properties": {
+        "boardId": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "ClearContentSchema": {
+      "required": ["boardId", "content"],
+      "type": "object",
+      "properties": {
+        "boardId": {
+          "type": "string"
+        },
+        "content": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "example": {
+        "boardId": "60eed6b8409e8e2d28a12249",
+        "action": "clear",
+        "newContent": []
+      }
+    },
+    "getWhiteBoardSchema": {
+      "required": ["org_id,obj_id,obj_type"],
+      "type": "object",
+      "properties": {
+        "org_id": {
+          "type": "string"
+        },
+        "obj_id": {
+          "type": "string"
+        },
+        "obj_type": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "username": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "team_id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "org_id": "11008",
+        "obj_id": "30808",
+        "obj_type": "admin"
+      }
+    },
+
+    "groupUser": {
+      "required": ["username,email,contact_number"],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "contact_number": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "username": "user3",
+        "email": "user3@gmail.com",
+        "contact_number": "1234567892"
+      }
+    },
+    "editUserGroup": {
+      "required": ["_id,username,email,contact_number"],
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "contact_number": {
+          "type": "number"
+        }
+      },
+      "example": {
+        "username": "user4",
+        "email": "user4@gmail.com",
+        "contact_number": "1234567893"
+      }
+    },
+    "groupCreate": {
+      "required": ["userId,name,Image"],
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "Image": {
+          "type": "string"
+        }
+      }
+    },
+    "addUserToGroup": {
+      "required": ["adder,username,groupId"],
+      "type": "object",
+      "properties": {
+        "adder": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "groupId": {
+          "type": "string"
+        }
+      }
+    },
+    "removeUserToGroup": {
+      "required": ["groupId,removerId,removeId"],
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "string"
+        },
+        "removerId": {
+          "type": "string"
+        },
+        "removeId": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
